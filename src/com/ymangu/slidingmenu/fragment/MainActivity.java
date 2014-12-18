@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 
+import com.actionbarsherlock.view.MenuItem;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
 
@@ -43,7 +44,7 @@ public class MainActivity extends SlidingFragmentActivity {
 		
 		//设置SlidingMenu属性和layout
 	   sm = getSlidingMenu();     //得到SlidingMenu的对象
-	   sm.setMode(SlidingMenu.LEFT);//设置slidingmenu滑动的方式
+	   sm.setMode(SlidingMenu.LEFT_RIGHT);//设置slidingmenu滑动的方式
 	   sm.setShadowDrawable(R.drawable.shadow);//设置slidingmenu边界的阴影图片
 	   sm.setShadowWidthRes(R.dimen.shadow_width);//设置阴影的宽度
 	   sm.setBehindOffsetRes(R.dimen.slidingmenu_offset);//设置slidingmenu宽度
@@ -52,9 +53,7 @@ public class MainActivity extends SlidingFragmentActivity {
 	   sm.setMenu(R.layout.menu_frame);
 	   sm.setBehindCanvasTransformer(null);//设置slidingmenu动画
 	   
-	   
-		
-	   		//设置menu的fragment
+	     //设置menu的fragment
 	 		leftFragment = new LeftFragment();
 	 		this.getSupportFragmentManager()  //拿到fragment管理器
 	 		.beginTransaction()				//fragment的事物管理
@@ -62,8 +61,23 @@ public class MainActivity extends SlidingFragmentActivity {
 	 		.commit();		//提交
 	 		
 	 		
+	 		//设置右侧的slidingmenu
+			sm.setSecondaryMenu(R.layout.menu_frame_right);
+			sm.setSecondaryShadowDrawable(R.drawable.shadowright);
+			
+	 		//设置右侧滑出的slidingmenu
+			RightFragment rightFragment = new RightFragment();
+			this.getSupportFragmentManager()
+			.beginTransaction()
+			.replace(R.id.menu_frame_right, rightFragment)
+			.commit();
 	 		
-		
+			//设置在slidingmenu页显示ActionBar
+			setSlidingActionBarEnabled(false);
+			//设置ActionBar的图标可以被点击
+			getSupportActionBar().setHomeButtonEnabled(true);
+			//启用向左的图标
+			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 	
     // 保存当前的contentFragment
@@ -90,11 +104,26 @@ public class MainActivity extends SlidingFragmentActivity {
 		.replace(R.id.content_frame, contentFragment)
 		.commit();
 		
-		sm.toggle();
+		sm.toggle();   //让菜单弹回去
 	}
 	
-	
-	
+	/**
+	 * . 捕捉 actionBar 向左的箭头的点击事件
+	 **/
+	@Override
+	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home: // 这个ID是默认的，不用我们指定
+			sm.toggle();// 动态打开或关闭slidingmenu
+			break;
+
+		default:
+			break;
+
+		}
+
+		return true;
+	}
 	
 	
 }
