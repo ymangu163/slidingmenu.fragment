@@ -1,11 +1,14 @@
 package com.ymangu.slidingmenu.fragment;
 
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
+import android.view.animation.Interpolator;
 
 import com.actionbarsherlock.view.MenuItem;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu.CanvasTransformer;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
 
 /**
@@ -51,7 +54,7 @@ public class MainActivity extends SlidingFragmentActivity {
 //		sm.setBehindWidth(400);//设置slidingmenu宽度
 	   sm.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);//设置滑出slidingmenu范围
 	   sm.setMenu(R.layout.menu_frame);
-	   sm.setBehindCanvasTransformer(null);//设置slidingmenu动画
+	   sm.setBehindCanvasTransformer(canvasTransformer);//设置slidingmenu动画
 	   
 	     //设置menu的fragment
 	 		leftFragment = new LeftFragment();
@@ -124,6 +127,52 @@ public class MainActivity extends SlidingFragmentActivity {
 
 		return true;
 	}
+	
+	/**
+	 * 缩放动画
+	 */
+	private CanvasTransformer canvasTransformer = new CanvasTransformer() {
+
+		@Override
+		public void transformCanvas(Canvas canvas, float percentOpen) {
+			float scale = (float) (percentOpen*0.25 + 0.75);
+			// 以中心点x,y都缩小scale
+			canvas.scale(scale, scale, canvas.getWidth()/2, canvas.getHeight()/2);
+		}
+	};
+	
+	/**
+	 * 从下往上动画
+	 */
+private CanvasTransformer canvasTransformer2 = new CanvasTransformer() {
+		
+		@Override
+		public void transformCanvas(Canvas canvas, float percentOpen) {
+			//移动到哪个坐标点
+			canvas.translate(0, canvas.getHeight()*(1-interp.getInterpolation(percentOpen)));
+		}
+		
+	};
+	
+	private static Interpolator interp = new Interpolator() {
+		@Override
+		public float getInterpolation(float t) {
+			t -= 1.0f;
+			return t * t * t + 1.0f;
+		}		
+	};
+	/**
+	 * 拉伸动画
+	 */
+	private CanvasTransformer canvasTransformer3 = new CanvasTransformer() {
+		
+		@Override
+		public void transformCanvas(Canvas canvas, float percentOpen) {
+			canvas.scale(percentOpen, 1, 0, 0);
+
+		}
+		
+	};
 	
 	
 }
