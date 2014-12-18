@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <!-- 
+	android:showAsAction属性说明
+	never：永远不会显示。只会在溢出列表中显示。
+	ifRoom：会显示在Item中，但是如果已经有4个或者4个以上的Item时会隐藏在溢出列表中。
+	always：无论是否溢出，总会显示。
+	withText：Title会显示。
+	collapseActionView：可拓展的Item。
+      -->
+     <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:showAsAction="ifRoom"
+        android:icon="@drawable/down_triangle2"
+        android:title="@string/action_settings"/>
+     
+     <item
+        android:id="@+id/action_more"
+        android:orderInCategory="100"
+        android:showAsAction="ifRoom"
+        android:icon="@drawable/ic_launcher"
+        android:title="@string/more"/>
+
+</menu>

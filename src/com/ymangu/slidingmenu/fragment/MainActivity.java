@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.view.animation.Interpolator;
+import android.widget.Toast;
 
+import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu.CanvasTransformer;
@@ -110,6 +112,16 @@ public class MainActivity extends SlidingFragmentActivity {
 		sm.toggle();   //让菜单弹回去
 	}
 	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		/**
+		 * .1. 这里导入的Menu的包是 com.actionbarsherlock.view.Menu
+		 *  通过inflate 把xml转换成 menu
+		 **/
+		getSupportMenuInflater().inflate(R.menu.menu, menu);
+		return true;
+	}
+	
 	/**
 	 * . 捕捉 actionBar 向左的箭头的点击事件
 	 **/
@@ -119,7 +131,12 @@ public class MainActivity extends SlidingFragmentActivity {
 		case android.R.id.home: // 这个ID是默认的，不用我们指定
 			sm.toggle();// 动态打开或关闭slidingmenu
 			break;
-
+		case R.id.action_settings:
+			Toast.makeText(this, "Settings", 0).show();
+			break;
+		case R.id.action_more:
+			Toast.makeText(this, "更多", 0).show();
+			break;
 		default:
 			break;
 

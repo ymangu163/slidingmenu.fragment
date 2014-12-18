@@ -3,5 +3,7 @@
 
     <string name="app_name">SlidingMenuFragment</string>
     <string name="hello_world">Hello world!</string>
+    <string name="action_settings">setting</string>
+    <string name="more">更多</string>
 
 </resources>
